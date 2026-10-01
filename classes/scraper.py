@@ -36,7 +36,10 @@ def convertDate(expression):
         time_part = expression.split()[1]
         ret_date = datetime.strptime(time_part, "%H:%M").replace(year=now.year, month=now.month, day=now.day) - timedelta(days=1)
     else:
-        ret_date = datetime.strptime(expression, "%Y-%m-%d")
+        try:
+            ret_date = datetime.strptime(expression, "%Y-%m-%d")
+        except ValueError:
+            return expression  # e.g. "Előresorolva" on promoted ads
     return ret_date.strftime("%Y-%m-%d %H:%M")
 
 
